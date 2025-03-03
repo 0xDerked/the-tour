@@ -210,6 +210,84 @@ const ClubhouseText = styled(Typography)({
   width: "100%",
 });
 
+// Modify the puttingGreenStyles object to remove hole styles
+const puttingGreenStyles = {
+  container: {
+    position: "relative" as const,
+    width: "100%",
+    height: "100%", // Changed from 300px to 100% to fill parent
+    backgroundColor: "#7baf6e",
+    borderRadius: "50%",
+    boxShadow: "inset 0 0 20px rgba(0, 0, 0, 0.2)",
+    overflow: "hidden",
+  },
+  grass: {
+    position: "absolute" as const,
+    width: "100%",
+    height: "100%",
+    backgroundImage:
+      "linear-gradient(0deg, #7baf6e 49%, #8bbe7c 50%, #7baf6e 51%)",
+    backgroundSize: "10px 10px",
+    opacity: 0.7,
+  },
+  flag: {
+    position: "absolute" as const,
+    width: "2px",
+    height: "30px",
+    backgroundColor: "#fff",
+  },
+  flagTop: {
+    position: "absolute" as const,
+    width: "15px",
+    height: "10px",
+    backgroundColor: "red",
+  },
+  text: {
+    position: "absolute" as const,
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    textAlign: "center" as const,
+    fontWeight: "bold",
+    textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+    zIndex: 2,
+  },
+};
+
+// Modify the component to only include flags
+const FlagOnly = ({ left, top }: { left: number; top: number }) => (
+  <div
+    style={{ position: "absolute" as const, left: `${left}%`, top: `${top}%` }}
+  >
+    <div style={puttingGreenStyles.flag}></div>
+    <div style={puttingGreenStyles.flagTop}></div>
+  </div>
+);
+
+// Update the PuttingGreen component to include the text
+const PuttingGreen = () => (
+  <div style={puttingGreenStyles.container}>
+    <div style={puttingGreenStyles.grass}></div>
+    <FlagOnly left={20} top={30} />
+    <FlagOnly left={80} top={40} />
+    <Typography
+      variant="h5"
+      sx={{
+        position: "absolute",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        textAlign: "center",
+        fontWeight: "bold",
+        textShadow: "1px 1px 2px rgba(0,0,0,0.5)",
+        zIndex: 2,
+      }}
+    >
+      Putting Green
+    </Typography>
+  </div>
+);
+
 function App() {
   const [isMuted, setIsMuted] = useState(false);
 
@@ -278,8 +356,14 @@ function App() {
         </Location>
 
         {/* Putting Green - oval at top right */}
-        <Location top="35%" left="60%" width="25%" height="15%">
-          <LocationText variant="h5">Putting Green</LocationText>
+        <Location
+          top="30%"
+          left="60%"
+          width="25%"
+          height="15%"
+          sx={{ border: "3px solid white" }}
+        >
+          <PuttingGreen />
         </Location>
 
         {/* Bunker Practice - oval at mid-right */}
